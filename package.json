@@ -1,0 +1,71 @@
+{
+    "_args": [
+      [
+        "cordova-plugin-device-orientation@1.0.0"
+      ]
+    ],
+    "_from": "cordova-plugin-device-orientation@1.0.0",
+    "_id": "cordova-plugin-device-orientation@1.0.0",
+    "_inBundle": false,
+    "_integrity": "sha1-HdAAI9Hxos4zD4dn7Qj3tzj+cYQ=",
+    "_location": "/cordova-plugin-device-orientation",
+    "_phantomChildren": {},
+    "_requested": {
+      "type": "version",
+      "registry": true,
+      "raw": "cordova-plugin-device-orientation@1.0.0",
+      "name": "cordova-plugin-device-orientation",
+      "escapedName": "cordova-plugin-device-orientation",
+      "rawSpec": "1.0.0",
+      "saveSpec": null,
+      "fetchSpec": "1.0.0"
+    },
+    "_requiredBy": [
+      "/"
+    ],
+    "_spec": "1.0.0",
+    "_where": "/Users/chriskhong/Documents/Qarma/mobile-app",
+    "author": {
+      "name": "Qarma Inspect Aps"
+    },
+    "bugs": {
+      "url": "https://github.com/Qarma-inspect/cordova-plugin-device-orientation/issues"
+    },
+    "cordova": {
+      "id": "cordova-plugin-device-orientation",
+      "platforms": [
+        "android",
+        "ios"
+      ]
+    },
+    "description": "Cordova Device Orientation Plugin",
+    "devDependencies": {
+      "jshint": "^2.6.0"
+    },
+    "engines": {
+      "cordovaDependencies": {
+        "3.0.0": {
+          "cordova": ">100"
+        }
+      }
+    },
+    "homepage": "https://github.com/Qarma-inspect/cordova-plugin-device-orientation#readme",
+    "keywords": [
+      "cordova",
+      "orientation",
+      "cordova-android",
+      "cordova-ios"
+    ],
+    "license": "Apache-2.0",
+    "name": "cordova-plugin-device-orientation",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Qarma-inspect/cordova-plugin-device-orientation.git"
+    },
+    "scripts": {
+      "jshint": "node node_modules/jshint/bin/jshint www && node node_modules/jshint/bin/jshint src && node node_modules/jshint/bin/jshint tests",
+      "test": "npm run jshint"
+    },
+    "version": "1.0.0"
+  }
+  
