@@ -8,13 +8,39 @@
 	CDVPluginResult* pluginResult = nil;
 
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-    NSMutableDictionary* returnInfo = [NSMutableDictionary dictionaryWithCapacity:1];
-    [returnInfo setObject:orientation forKey:@"orientation"];
+    NSString* orientationStr;
+    switch (orientation) {
+        case 1:
+            orientationStr = @"Portrait";
+            break;
+        case 2:
+            orientationStr = @"Upside Down";
+            break;
+        case 3:
+            orientationStr = @"Landscape Right";
+            break;
+        case 4:
+            orientationStr = @"Landscape Left";
+            break;
+        case 5:
+            orientationStr = @"Camera Facing Down";
+            break;
+        case 6:
+            orientationStr = @"Camera Facing Up";
+            break;
+        default:
+            orientationStr = @"Unknown";
+            break;
+    }
+    
+    NSMutableDictionary* returnInfo = [NSMutableDictionary dictionaryWithCapacity:4];
+    [returnInfo setObject:orientationStr forKey:@"orientation"];
+
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:returnInfo];
-    [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 @end
