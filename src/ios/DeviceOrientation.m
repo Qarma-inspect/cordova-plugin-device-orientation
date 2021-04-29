@@ -4,14 +4,25 @@
 @implementation DeviceOrientation
 @synthesize callbackId;
 
+
+
+-(void)deviceOrientationDidChange
+{
+    [self.commandDelegate evalJs:@"cordova.fireDocumentEvent('orientationupdate', null, true);" scheduledOnRunLoop:YES];
+}
+
 - (void)getOrientation:(CDVInvokedUrlCommand*)command {
-	CDVPluginResult* pluginResult = nil;
+    CDVPluginResult* pluginResult = nil;
 
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(deviceOrientationDidChange) 
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
 
-    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    NSMutableDictionary* returnInfo = [NSMutableDictionary dictionaryWithCapacity:4];
     NSString* orientationStr;
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     switch (orientation) {
         case 1:
             orientationStr = @"Portrait";
@@ -35,8 +46,6 @@
             orientationStr = @"Unknown";
             break;
     }
-    
-    NSMutableDictionary* returnInfo = [NSMutableDictionary dictionaryWithCapacity:4];
     [returnInfo setObject:orientationStr forKey:@"orientation"];
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:returnInfo];
