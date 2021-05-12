@@ -10,11 +10,22 @@ import CoreMotion
         self.commandDelegate!.evalJs("cordova.fireDocumentEvent('orientationupdate', null, true);");
     }
 
-    @objc(startUpdates:) func startUpdates(command: CDVInvokedUrlCommand) {
+    @objc(startAccelerometerUpdates:) func startAccelerometerUpdates(command: CDVInvokedUrlCommand) {
         motionManager = CMMotionManager();
         motionManager.startAccelerometerUpdates();
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector:  #selector(update), userInfo: nil, repeats: true);
 
+        let pluginResult = CDVPluginResult(
+            status: CDVCommandStatus_OK
+        )
+        self.commandDelegate!.send(
+            pluginResult, 
+            callbackId: command.callbackId
+        )
+    }
+
+    @objc(stopAccelerometerUpdates:) func stopAccelerometerUpdates(command: CDVInvokedUrlCommand) {
+        motionManager.stopAccelerometerUpdates();
         let pluginResult = CDVPluginResult(
             status: CDVCommandStatus_OK
         )
