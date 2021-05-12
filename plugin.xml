@@ -58,8 +58,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             </feature>
         </config-file>
 
-        <header-file src="src/ios/DeviceOrientation.h"/>
-        <source-file src="src/ios/DeviceOrientation.m" compiler-flags="-fno-objc-arc"/>
+        <source-file src="src/ios/DeviceOrientation.swift"/>
     </platform>
 
 </plugin>
