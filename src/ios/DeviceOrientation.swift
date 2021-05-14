@@ -6,14 +6,14 @@ import CoreMotion
     var accelerometerData: CMAccelerometerData!
 
     @objc func update() {
-        accelerometerData = motionManager.accelerometerData;
-        self.commandDelegate!.evalJs("cordova.fireDocumentEvent('orientationupdate', null, true);");
+        let newOrientation = getOrientation();
+        self.commandDelegate!.evalJs("cordova.fireDocumentEvent('orientationupdate', {orientation:'" + newOrientation + "'}, true);");
     }
 
     @objc(startAccelerometerUpdates:) func startAccelerometerUpdates(command: CDVInvokedUrlCommand) {
         motionManager = CMMotionManager();
         motionManager.startAccelerometerUpdates();
-        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector:  #selector(update), userInfo: nil, repeats: true);
+        timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector:  #selector(update), userInfo: nil, repeats: true);
 
         let pluginResult = CDVPluginResult(
             status: CDVCommandStatus_OK
@@ -35,30 +35,24 @@ import CoreMotion
         )
     }
 
-    @objc(getOrientation:) func getOrientation(command: CDVInvokedUrlCommand) {
-        var pluginResultData = CDVPluginResult(
-            status: CDVCommandStatus_ERROR
-        )
-        
+    func getOrientation() -> String {
         accelerometerData = motionManager.accelerometerData
         
-        
         if accelerometerData != nil {
-            let returnInfo = [
-                "x": accelerometerData.acceleration.x,
-                "y": accelerometerData.acceleration.y,
-                "z": accelerometerData.acceleration.z,
-            ] as [AnyHashable : Any];
-
-            pluginResultData = CDVPluginResult(
-                status: CDVCommandStatus_OK,
-                messageAs: returnInfo
-            )
+            let x = accelerometerData.acceleration.x;
+            let y = accelerometerData.acceleration.y;
+            if x >= 0.75 {
+                return "landscape-secondary"
+            } else if x <= -0.75 {
+                return "landscape-primary"
+            } else if y <= -0.75 {
+                return "portrait-primary"
+            } else if y >= 0.75 {
+                return "portrait-secondary"
+            } else {
+                return "portrait-primary"
+            }
         }
-
-        self.commandDelegate!.send(
-            pluginResultData,
-            callbackId: command.callbackId
-        )
+        return "portrait-primary"
     }
 }
