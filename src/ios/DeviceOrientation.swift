@@ -4,9 +4,10 @@ import CoreMotion
     var motionManager: CMMotionManager!;
     var timer: Timer!
     var accelerometerData: CMAccelerometerData!
+    var lastOrientation: String = "";
 
     @objc func update() {
-        let newOrientation = getOrientation();
+        let newOrientation: String = getOrientation();
         self.commandDelegate!.evalJs("cordova.fireDocumentEvent('orientationupdate', {orientation:'" + newOrientation + "'}, true);");
     }
 
@@ -42,16 +43,18 @@ import CoreMotion
             let x = accelerometerData.acceleration.x;
             let y = accelerometerData.acceleration.y;
             if x >= 0.75 {
-                return "landscape-secondary"
+                lastOrientation = "landscape-secondary";
             } else if x <= -0.75 {
-                return "landscape-primary"
+                lastOrientation = "landscape-primary";
             } else if y <= -0.75 {
-                return "portrait-primary"
+                lastOrientation = "portrait-primary";
             } else if y >= 0.75 {
-                return "portrait-secondary"
-            } else {
-                return "portrait-primary"
+                lastOrientation = "portrait-secondary";
             }
+            if lastOrientation.isEmpty {
+                lastOrientation = "portrait-primary";
+            }
+            return lastOrientation;
         }
         return "portrait-primary"
     }
