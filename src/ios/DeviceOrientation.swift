@@ -42,13 +42,13 @@ import CoreMotion
         if accelerometerData != nil {
             let x = accelerometerData.acceleration.x;
             let y = accelerometerData.acceleration.y;
-            if x >= 0.17 {
+            if x >= 0.33 {
                 lastOrientation = "landscape-secondary";
-            } else if x <= -0.17 {
+            } else if x <= -0.33 {
                 lastOrientation = "landscape-primary";
-            } else if y <= -0.17 {
+            } else if y <= -0.33 {
                 lastOrientation = "portrait-primary";
-            } else if y >= 0.17 {
+            } else if y >= 0.33 {
                 lastOrientation = "portrait-secondary";
             }
             if lastOrientation.isEmpty {
