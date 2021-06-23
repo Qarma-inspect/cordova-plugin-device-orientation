@@ -83,7 +83,7 @@ public class DeviceOrientation extends CordovaPlugin {
                     // determine our orientation based on sensor response
                     String lastOrientation = mOrientation;
 
-                    if (orientation >= 315 || orientation < 45) {
+                    if (orientation >= 315 || orientation < 45 && orientation > -1) {
                         if (mOrientation != ORIENTATION_PORTRAIT_NORMAL) {
                             mOrientation = ORIENTATION_PORTRAIT_NORMAL;
                         }
@@ -98,18 +98,16 @@ public class DeviceOrientation extends CordovaPlugin {
                             mOrientation = ORIENTATION_PORTRAIT_INVERTED;
                         }
                     }
-                    else { // orientation <135 && orientation > 45
+                    else if(orientation < 135 && orientation >= 45) { // orientation <135 && orientation > 45
                         if (mOrientation != ORIENTATION_LANDSCAPE_INVERTED) {
                             mOrientation = ORIENTATION_LANDSCAPE_INVERTED;
                         }
+                    } else {
+                        mOrientation = lastOrientation;
                     }
+
                     if (lastOrientation != mOrientation) {
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                cordovaWebView.sendJavascript("cordova.fireDocumentEvent('orientationupdate', {orientation:'" + mOrientation + "'}, true);");
-                            }
-                        });
+                        cordovaWebView.sendJavascript("cordova.fireDocumentEvent('orientationupdate', {orientation:'" + mOrientation + "'}, true);");
                     }
                 }
             };
