@@ -121,6 +121,9 @@ public class DeviceOrientation extends CordovaPlugin {
     }
 
     private void stopAccelerometerUpdates(CallbackContext callbackContext) {
+        if(mOrientationEventListener != null) {
+            mOrientationEventListener.disable();
+        }
         PluginResult result;
         result = new PluginResult(PluginResult.Status.OK);
         callbackContext.sendPluginResult(result);
